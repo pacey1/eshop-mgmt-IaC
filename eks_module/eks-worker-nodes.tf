@@ -38,6 +38,10 @@ resource "aws_iam_role_policy_attachment" "terra-node-AmazonEC2ContainerRegistry
   role       = aws_iam_role.terra-node.name
 }
 
+resource "aws_iam_role_policy_attachment" "terra-node-EC2InstanceProfileForImageBuilderECRContainerBuilds" {
+  policy_arn = "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds"
+  role       = aws_iam_role.terra-node.name
+}
 
 
 resource "aws_eks_node_group" "terra" {
@@ -56,6 +60,7 @@ resource "aws_eks_node_group" "terra" {
   depends_on = [
     aws_iam_role_policy_attachment.terra-node-AmazonEKSWorkerNodePolicy,
     aws_iam_role_policy_attachment.terra-node-AmazonEKS_CNI_Policy,
-    aws_iam_role_policy_attachment.terra-node-AmazonEC2ContainerRegistryReadOnly
+    aws_iam_role_policy_attachment.terra-node-AmazonEC2ContainerRegistryReadOnly,
+    aws_iam_role_policy_attachment.terra-node-EC2InstanceProfileForImageBuilderECRContainerBuilds
   ]
 }
